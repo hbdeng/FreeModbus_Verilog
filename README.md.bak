@@ -1,5 +1,5 @@
 # FreeModbus_Verilog
-Verilog implementation for FreeModbus|Free Modbus的Verilog实现(working)
+Verilog implementation for FreeModbus|Free Modbus的Verilog实现
 
 TODO:
 1. First implement ASCII mode with no soft/hard CPU cores.（working）
