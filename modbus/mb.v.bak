@@ -123,7 +123,25 @@ parameter EV_FRAME_SENT =3;
         if (!rst_n)
             eMBErrorCode <= MB_ENOERR;
     end
-
+    always @ (posedge clk or negedge rst_n)
+    begin
+        if (!rst_n)
+            xRxEnable <= FALSE;
+        else if ()
+            xRxEnable <= TRUE;
+        else if ()
+            xRxEnable <= FALSE;
+    end
+    always @ (posedge clk or negedge rst_n)
+    begin
+        if (!rst_n)
+            xTxEnable <= FALSE;
+        else if ()
+            xTxEnable <= TRUE;
+        else if ()
+            xTxEnable <= FALSE;
+    end
+    
     portserial U_portserial_0(
     
     );
