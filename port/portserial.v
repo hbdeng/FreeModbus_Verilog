@@ -19,21 +19,22 @@ module portserial(
     // inputs
     inMBPortSerialPutByte,
     inMBPortSerialGetByte,
-    inRxEnable,
-    inTxEnable,
-    
+    inBaudRate,
+    inByte,
     
     // inouts
     
     
     // outpus
+    outRxEnable,
+    outTxEnable,
+    outByte,
     outUARTTxReadyISR,
-    outUARTRxISR
+    outUARTRxISR,
 );
 
 
     // parameters
-    parameter BaudRate = 115200;
 
     
     // 

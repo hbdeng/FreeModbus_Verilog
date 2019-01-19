@@ -1,4 +1,3 @@
-
 /**
  * @file mb.v
  * @breif verilog implementation of Modbus slaver protocal.
@@ -33,8 +32,7 @@ module mb(
 	
 	
     // outputs
-	outMBPortEventGet,
-	outEvent,
+	outEventState,
 );  
 
 
@@ -75,6 +73,39 @@ parameter EV_FRAME_SENT =3;
     always @ ( posedge clk or negedge rst_n )
     begin
         if ( !rst_n )
+            stateEventCur <= EV_READY;
+        else
+            stateEventCur <= stateEventNext;
+    end
+    always @ *
+    begin
+        stateEventNext = stateEventCur;
+        case (stateEventCur)
+            EV_READY:
+            begin
+                
+            end
+            EV_FRAME_RECEIVED:
+            begin
+                
+            end
+            EV_EXECUTE:
+            begin
+                
+            end
+            EV_FRAME_SENT:
+            begin
+                
+            end
+            default:
+            begin
+                
+            end
+        endcase
+    end
+    always @ ( posedge clk or negedge rst_n )
+    begin
+        if ( !rst_n )
             eEvent <= EV_READY;
         else if ( UARTRxISR && ( eRcvState == STATE_RX_WAIT_EOF ) && ucByte == ucMBLFCharacter )
             eEvent <= EV_FRAME_RECEIVED;
@@ -83,54 +114,12 @@ parameter EV_FRAME_SENT =3;
         else if ( inMBPoll && UARTTxISR && ( eSndState == STATE_TX_NOTIFY ) )
             eEvent <= EV_FRAME_SENT;
     end
-    always @ (posedge clk or negedge rst_n)
-    begin
-        if ( !rst_n )
-            eRcvState <= STATE_RX_IDLE;
-        else if ( UARTRxISR && ( ucByte == ':' ) )
-            eRcvState <= STATE_RX_RCV;
-        else if ( UARTRxISR && ( ucByte == MB_ASCII_DEFAULT_CR ) )
-            eRcvState <= STATE_RX_WAIT_EOF;
-        else if (UARTRxISR && xMBPortEventPost)
-            eRcvState <= STATE_RX_IDLE;
-    end
-    always @ (posedge clk or negedge rst_n)
-    begin
-        if (!rst_n)
-            eSndState <= STATE_TX_IDLE;
-        else if (xMBPortEventPost)
-            eSndState <= STATE_TX_START;
-        else if (xMBPortEventPost)
-            eSndState <= STATE_TX_DATA;
-        else if (xMBPortEventPost)
-            eSndState <= STATE_TX_END;
-        else if ()
-            eSndState <= STATE_TX_NOTIFY;
-        else if ()
-            eSndState <= STATE_TX_IDLE;
-    end
-    always @ (posedge clk or negedge rst_n)
-    begin
-        if (!rst_n)
-            eBytePos <= BYTE_HIGH_NIBBLE;
-        else if ()
-            eBytePos <= BYTE_HIGH_NIBBLE;
-        else if ()
-            eBytePos <= BYTE_LOW_NIBBLE;
-    end
+
     always @ (posedge clk or negedge rst_n)
     begin
         if (!rst_n)
             eMBErrorCode <= MB_ENOERR;
     end
 
-    portserial U_portserial_0(
-    
-    );
-    
-    porttimer U_porttimer_0(
-    
-    );
-    
     
 endmodule

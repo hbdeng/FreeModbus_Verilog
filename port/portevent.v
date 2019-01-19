@@ -1,6 +1,6 @@
 /**
  * @file portevent.v
- * @breif port event state machiene for Modbus protocal.
+ * @breif port event state machine for Modbus protocal.
  * @auther denghb
  * @date 20190119
  * @version 1.0
@@ -25,7 +25,8 @@ module portevent(
     
     
     // outputs
-    
+    outEventInQueue,
+    outEventHappened
 );
 
     /**
@@ -34,18 +35,18 @@ module portevent(
     always @ ( posedge clk or negedge rst_n )
     begin
         if ( !rst_n )
-            rEventInQueue <= 0;
+            regEventInQueue <= FALSE;
         else if ( xMBPortEventPost )
-            rEventInQueue <= 1;
+            regEventInQueue <= TRUE;
         else if ( xMBPortEventGet )
-            rEventInQueue <= 0;
+            regEventInQueue <= FALSE;
     end
     always @ ( posedge clk or negedge rst_n )
     begin
         if ( !rst_n )
-            rQueuedEvent <= EV_READY;
+            regQueuedEvent <= EV_READY;
         else if ( xMBPortEventPost )
-            rQueuedEvent <= eEvent;
+            regQueuedEvent <= eEvent;
     end
-
+    
 endmodule
