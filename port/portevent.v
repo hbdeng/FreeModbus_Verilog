@@ -29,6 +29,9 @@ module portevent(
     outEventHappened
 );
 
+    wire MBPortEventPost;
+    wire MBPortEventGet;
+
     /**
      * @brief MB protocal Event State Machine
     **/
@@ -36,16 +39,16 @@ module portevent(
     begin
         if ( !rst_n )
             regEventInQueue <= FALSE;
-        else if ( xMBPortEventPost )
+        else if ( MBPortEventPost )
             regEventInQueue <= TRUE;
-        else if ( xMBPortEventGet )
+        else if ( MBPortEventGet )
             regEventInQueue <= FALSE;
     end
     always @ ( posedge clk or negedge rst_n )
     begin
         if ( !rst_n )
             regQueuedEvent <= EV_READY;
-        else if ( xMBPortEventPost )
+        else if ( MBPortEventPost )
             regQueuedEvent <= eEvent;
     end
     
